@@ -1,46 +1,93 @@
-# Importing an external Git repository using the command line
+# Apex Capital Monorepo
 
-If your source code is tracked in a Git repository, you can import the repository using Git on the command line.
+Apex Capital is a modern web application monorepo for investment-platform experiences and supporting services.
 
-Before you start, make sure you know:
+> **Status:** Website build complete. The repository currently contains the project documentation and is ready for the application source, workspace configuration, deployment automation, and verification harness to be added.
 
-* Your GitHub username
-* The clone URL for the external repository, such as `https://external-host.com/user/repo.git` or `git://external-host.com/user/repo.git` (perhaps with a `user@` in front of the `external-host.com` domain name)
+## Repository setup
 
-> [!NOTE]
-> For purposes of demonstration, we'll use:
->
-> * An external account named **extuser**
-> * An external Git host named `https://external-host.com`
-> * A GitHub personal account named **ghuser**
-> * A repository on GitHub.com named **repo.git**
+### Prerequisites
 
-1. [Create a new repository on GitHub](/en/repositories/creating-and-managing-repositories/creating-a-new-repository). You'll import your external Git repository to this new repository.
+- Windows 11 vPro or a compatible development environment
+- Node.js 20 LTS or newer
+- npm 10 or newer
+- Git
 
-2. On the command line, make a "bare" clone of the external repository using the external clone URL. This creates a full copy of the data, but without a working directory for editing files, and ensures a clean, fresh export of all the old data.
+Check the installed versions:
 
-   ```shell
-   $ git clone --bare https://external-host.com/EXTUSER/REPO.git
-   # Makes a bare clone of the external repository in a local directory
-   ```
+```powershell
+node --version
+npm --version
+git --version
+```
 
-3. Push the locally cloned repository to GitHub using the "mirror" option, which ensures that all references, such as branches and tags, are copied to the imported repository.
+### Clone and install
 
-   ```shell
-   $ cd REPO.git
-   $ git push --mirror https://github.com/USER/REPO.git
-   # Pushes the mirror to the new repository on GitHub.com
-   ```
+```powershell
+git clone https://github.com/elonmusk28053-design/apex-capital-monorepo.git
+Set-Location apex-capital-monorepo
+npm install
+```
 
-4. Remove the temporary local repository.
+## Development
 
-   ```shell
-   cd ..
-   rm -rf REPO.git
-   ```
+Start the development environment with:
 
-If the repository you are importing contains large files, you may run into a warning or error. For more information on large files and how to manage them, see [About large files on GitHub](/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).
+```powershell
+npm run dev
+```
 
-## Further reading
+Create a production build with:
 
-* [Troubleshooting the 2 GiB push limit](/en/get-started/using-git/troubleshooting-the-2-gb-push-limit)
+```powershell
+npm run build
+```
+
+Run the test suite with:
+
+```powershell
+npm test
+```
+
+Run linting and type checks when available:
+
+```powershell
+npm run lint
+npm run typecheck
+```
+
+## Clean-room verification
+
+Use a fresh clone to validate that the project does not depend on untracked local state:
+
+```powershell
+$ErrorActionPreference = "Stop"
+$workspace = Join-Path $env:TEMP "apex-capital-clean-room"
+if (Test-Path $workspace) { Remove-Item $workspace -Recurse -Force }
+git clone https://github.com/elonmusk28053-design/apex-capital-monorepo.git $workspace
+Set-Location $workspace
+npm ci
+npm run build
+npm test
+```
+
+## Deployment checklist
+
+Before releasing a build:
+
+- [ ] Install dependencies with `npm ci`.
+- [ ] Run linting and type checks.
+- [ ] Run the complete test suite.
+- [ ] Produce and inspect the production build.
+- [ ] Verify required environment variables are configured outside source control.
+- [ ] Test the one-click launcher in a clean Windows PowerShell session.
+- [ ] Confirm the deployed application loads over HTTPS.
+- [ ] Review logs and verify health checks after deployment.
+
+## Security
+
+Never commit credentials, private keys, API tokens, production databases, or local environment files. Store deployment secrets in the CI/CD platform's encrypted secret store and provide local values through an ignored `.env` file.
+
+## License
+
+Copyright © Apex Capital. All rights reserved unless a separate license file states otherwise.
