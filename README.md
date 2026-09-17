@@ -1,95 +1,46 @@
-# apex-capital-monorepo
+# Importing an external Git repository using the command line
 
-**Apex Capital — controlled sandbox only**
+If your source code is tracked in a Git repository, you can import the repository using Git on the command line.
 
-# Apex Capital — Production Best Practices & Hardening Guide
+Before you start, make sure you know:
 
-This document defines production hardening standards, security configurations, and operational best practices for deploying the Apex Capital monorepo (`platform-api` and `platform-public`).
+* Your GitHub username
+* The clone URL for the external repository, such as `https://external-host.com/user/repo.git` or `git://external-host.com/user/repo.git` (perhaps with a `user@` in front of the `external-host.com` domain name)
 
-> **Scope:** Apply these controls only to authorized deployments. Validate all configuration changes in a non-production environment before rollout.
+> [!NOTE]
+> For purposes of demonstration, we'll use:
+>
+> * An external account named **extuser**
+> * An external Git host named `https://external-host.com`
+> * A GitHub personal account named **ghuser**
+> * A repository on GitHub.com named **repo.git**
 
-## 1. Backend Security (`platform-api`)
+1. [Create a new repository on GitHub](/en/repositories/creating-and-managing-repositories/creating-a-new-repository). You'll import your external Git repository to this new repository.
 
-### CORS and Origin Validation
+2. On the command line, make a "bare" clone of the external repository using the external clone URL. This creates a full copy of the data, but without a working directory for editing files, and ensures a clean, fresh export of all the old data.
 
-- **Strict origin matching:** Configure `ALLOWED_ORIGIN` with the exact Netlify production origin, such as `https://apex-capital.netlify.app` or your approved custom domain. Never use `*` in production.
-- **Credentials support:** If the frontend sends cookies or `Authorization` headers, configure the Hono CORS middleware to allow credentials and only the required methods, including `GET`, `POST`, and `OPTIONS`.
-- **Preflight handling:** Verify that production responses include the expected CORS headers for both preflight and application requests.
+   ```shell
+   $ git clone --bare https://external-host.com/EXTUSER/REPO.git
+   # Makes a bare clone of the external repository in a local directory
+   ```
 
-### Secrets Management
+3. Push the locally cloned repository to GitHub using the "mirror" option, which ensures that all references, such as branches and tags, are copied to the imported repository.
 
-- **Never commit secrets:** Do not store JWT secrets, API keys, database credentials, or other sensitive values in Git, `.env` files, or `wrangler.jsonc`.
-- **Use Wrangler secrets:** Provision sensitive production variables through Cloudflare Wrangler:
+   ```shell
+   $ cd REPO.git
+   $ git push --mirror https://github.com/USER/REPO.git
+   # Pushes the mirror to the new repository on GitHub.com
+   ```
 
-```bash
-npx wrangler secret put JWT_SECRET
-npx wrangler secret put API_SIGNING_KEY
-```
+4. Remove the temporary local repository.
 
-- **Least privilege:** Use separate credentials and signing keys for development, staging, and production. Rotate them according to the incident-response and key-rotation policy.
+   ```shell
+   cd ..
+   rm -rf REPO.git
+   ```
 
-### Database Safety (Cloudflare D1)
+If the repository you are importing contains large files, you may run into a warning or error. For more information on large files and how to manage them, see [About large files on GitHub](/en/repositories/working-with-files/managing-large-files/about-large-files-on-github).
 
-- **Migrations:** Run and verify migrations against the remote database before deploying Worker code that depends on schema changes:
+## Further reading
 
-```bash
-npx wrangler d1 execute apex-capital-db --remote --file=./migrations/0001_init.sql
-```
-
-- **Backups:** Export or snapshot D1 data before major schema modifications and retain the export according to the recovery policy.
-- **Migration discipline:** Use ordered, immutable migration files. Test migrations locally and confirm the remote database name and environment before execution.
-
-## 2. Frontend Security and Optimization (`platform-public`)
-
-### Environment Variable Hygiene
-
-- **Public prefixing:** Expose only intentionally public variables prefixed with `VITE_` or `PUBLIC_` to the browser bundle.
-- **No secrets in client code:** Never place private keys, JWT signing secrets, database credentials, or privileged tokens in frontend environment variables.
-- **Runtime verification:** Confirm that the production build injects the live Worker URL through `VITE_API_URL`; production client requests must not target `localhost`.
-
-### Netlify Hardening (`_headers` or `netlify.toml`)
-
-Add security headers to the Netlify deployment. For example, in `netlify.toml`:
-
-```toml
-[[headers]]
-for = "/*"
-
-[headers.values]
-X-Frame-Options = "DENY"
-X-XSS-Protection = "1; mode=block"
-X-Content-Type-Options = "nosniff"
-Referrer-Policy = "strict-origin-when-cross-origin"
-Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
-```
-
-Review the Content Security Policy against the actual application dependencies. Remove `'unsafe-inline'` when the application can use nonces or hashes without breaking functionality.
-
-## 3. Operational Monitoring and Health Probes
-
-### Liveness (`/health`)
-
-Provide a lightweight endpoint that confirms the Cloudflare Worker isolate is active. It should avoid database access and remain safe for frequent monitoring requests.
-
-### Readiness (`/ready`)
-
-Provide an active readiness probe that executes a lightweight database query such as `SELECT 1` against D1. Use this endpoint with uptime monitors or load balancers to detect database degradation without treating normal liveness as a database health check.
-
-### Probe expectations
-
-- Return a stable success status only when the relevant dependency is healthy.
-- Return an appropriate failure status when readiness checks fail.
-- Do not expose secrets, connection details, or stack traces in probe responses.
-- Log failures with enough context for diagnosis while avoiding sensitive request data.
-
-## Deployment Checklist
-
-- [ ] `ALLOWED_ORIGIN` exactly matches the approved production origin.
-- [ ] No production secrets are committed to the repository or frontend bundle.
-- [ ] Wrangler secrets are provisioned and rotated through the approved process.
-- [ ] D1 migrations are tested, backed up, and applied remotely before dependent code deployment.
-- [ ] `VITE_API_URL` points to the production Worker endpoint.
-- [ ] Netlify security headers are deployed and verified.
-- [ ] `/health` does not query D1.
-- [ ] `/ready` verifies D1 availability with a lightweight query.
-- [ ] Monitoring alerts are configured for readiness failures and elevated error rates.
+* [Troubleshooting the 2 GiB push limit](/en/get-started/using-git/troubleshooting-the-2-gb-push-limit)
