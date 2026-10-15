@@ -1,0 +1,111 @@
+name: Security Invariants & Quality Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ci-security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Code Quality & Static Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Static Typecheck
+        run: npm run typecheck --if-present || npx tsc --noEmit
+
+      - name: ESLint Verification
+        run: npm run lint --if-present
+
+      - name: Dependency Vulnerability Audit
+        run: npm audit --audit-level=high
+
+  vitest-security-invariants:
+    name: Vitest Security & Isolation Invariants
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [lint-and-typecheck]
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET || 'ci-test-secret-key-entropy-32-bytes-minimum!' }}
+      AUDIT_SECRET: ${{ secrets.AUDIT_SECRET || 'ci-audit-secret-key-entropy-32-bytes-minimum!' }}
+      NODE_ENV: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vitest Security Invariant Suite
+        run: |
+          npx vitest run tests/portfolio.security.test.ts \
+            --reporter=verbose \
+            --reporter=github-actions
+
+      - name: Run Full Test Suite & Coverage
+        run: npm test -- --coverage --run || npx vitest run --coverage
+
+  airtable-ci-telemetry:
+    name: Record CI Run Status to Airtable
+    runs-on: ubuntu-latest
+    needs: [vitest-security-invariants]
+    if: always() && env.AIRTABLE_API_KEY != '' && env.AIRTABLE_BASE_ID != ''
+    env:
+      AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+      AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+      AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'CI_Runs' }}
+    steps:
+      - name: Post Run Summary to Airtable
+        run: |
+          STATUS="${{ needs.vitest-security-invariants.result }}"
+          PR_NUMBER="${{ github.event.pull_request.number || 'N/A' }}"
+          SHA="${{ github.sha }}"
+          ACTOR="${{ github.actor }}"
+          REF="${{ github.ref_name }}"
+
+          PAYLOAD=$(cat <<JSON
+          {
+            "records": [
+              {
+                "fields": {
+                  "Commit_SHA": "$SHA",
+                  "Branch": "$REF",
+                  "PR_Number": "$PR_NUMBER",
+                  "Triggered_By": "$ACTOR",
+                  "Security_Gate_Status": "$STATUS",
+                  "Timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+                }
+              }
+            ]
+          }
+          JSON
+          )
+
+          curl -s -X POST "https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}" \
+            -H "Authorization: Bearer ${AIRTABLE_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" || echo "Airtable telemetry logged with non-blocking exit"
