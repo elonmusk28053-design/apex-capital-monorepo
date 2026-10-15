@@ -73,14 +73,19 @@ jobs:
     name: Record CI Run Status to Airtable
     runs-on: ubuntu-latest
     needs: [vitest-security-invariants]
-    if: always() && env.AIRTABLE_API_KEY != '' && env.AIRTABLE_BASE_ID != ''
-    env:
-      AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
-      AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
-      AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'CI_Runs' }}
+    if: always()
     steps:
       - name: Post Run Summary to Airtable
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME || 'CI_Runs' }}
         run: |
+          if [ -z "$AIRTABLE_API_KEY" ] || [ -z "$AIRTABLE_BASE_ID" ]; then
+            echo "Airtable credentials not configured in repository secrets. Skipping telemetry."
+            exit 0
+          fi
+
           STATUS="${{ needs.vitest-security-invariants.result }}"
           PR_NUMBER="${{ github.event.pull_request.number || 'N/A' }}"
           SHA="${{ github.sha }}"
