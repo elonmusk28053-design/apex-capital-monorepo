@@ -25,39 +25,28 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Verify required package manifests
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          elif [ -f package.json ]; then
-            npm install
-          else
-            echo "package.json not yet detected in repository; skipping dependency install."
+          if [ ! -f package.json ]; then
+            echo "::error::package.json not found in repository root. Failing closed."
+            exit 1
           fi
+          if [ ! -f package-lock.json ]; then
+            echo "::error::package-lock.json not found in repository root. Lockfile is strictly required for deterministic CI builds. Failing closed."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Static Typecheck
-        run: |
-          if [ -f package.json ]; then
-            npm run typecheck --if-present || npx tsc --noEmit
-          else
-            echo "Source files not yet detected; skipping typecheck."
-          fi
+        run: npm run typecheck --if-present || npx tsc --noEmit
 
       - name: ESLint Verification
-        run: |
-          if [ -f package.json ]; then
-            npm run lint --if-present
-          else
-            echo "ESLint config not yet detected; skipping lint."
-          fi
+        run: npm run lint --if-present
 
       - name: Dependency Vulnerability Audit
-        run: |
-          if [ -f package-lock.json ]; then
-            npm audit --audit-level=high
-          else
-            echo "Lockfile not yet detected; skipping audit."
-          fi
+        run: npm audit --audit-level=high
 
   vitest-security-invariants:
     name: Vitest Security & Isolation Invariants
@@ -77,38 +66,34 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Verify required security test suite
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          elif [ -f package.json ]; then
-            npm install
-          else
-            echo "package.json not yet detected; skipping install."
+          if [ ! -f package-lock.json ]; then
+            echo "::error::package-lock.json not found in repository root. Failing closed."
+            exit 1
           fi
+          if [ ! -f tests/portfolio.security.test.ts ]; then
+            echo "::error::tests/portfolio.security.test.ts not found. Security invariant test suite is mandatory. Failing closed."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run Vitest Security Invariant Suite
         run: |
-          if [ -f tests/portfolio.security.test.ts ]; then
-            npx vitest run tests/portfolio.security.test.ts \
-              --reporter=verbose \
-              --reporter=github-actions
-          else
-            echo "tests/portfolio.security.test.ts not yet committed; skipping test suite."
-          fi
+          npx vitest run tests/portfolio.security.test.ts \
+            --reporter=verbose \
+            --reporter=github-actions
 
       - name: Run Full Test Suite & Coverage
         run: |
-          if [ -f package.json ]; then
-            npm test -- --coverage --run || npx vitest run --coverage
-          else
-            echo "package.json not yet detected; skipping test suite."
-          fi
+          npm test -- --coverage --run || npx vitest run --coverage
 
   airtable-ci-telemetry:
     name: Record CI Run Status to Airtable
     runs-on: ubuntu-latest
-    needs: [vitest-security-invariants]
+    needs: [lint-and-typecheck, vitest-security-invariants]
     if: always()
     steps:
       - name: Post Run Summary to Airtable
@@ -122,7 +107,14 @@ jobs:
             exit 0
           fi
 
-          STATUS="${{ needs.vitest-security-invariants.result }}"
+          QUALITY_STATUS="${{ needs.lint-and-typecheck.result }}"
+          TEST_STATUS="${{ needs.vitest-security-invariants.result }}"
+          if [ "$QUALITY_STATUS" = "success" ] && [ "$TEST_STATUS" = "success" ]; then
+            GATE_STATUS="success"
+          else
+            GATE_STATUS="failure"
+          fi
+
           PR_NUMBER="${{ github.event.pull_request.number || 'N/A' }}"
           SHA="${{ github.sha }}"
           ACTOR="${{ github.actor }}"
@@ -137,7 +129,7 @@ jobs:
                   "Branch": "$REF",
                   "PR_Number": "$PR_NUMBER",
                   "Triggered_By": "$ACTOR",
-                  "Security_Gate_Status": "$STATUS",
+                  "Security_Gate_Status": "$GATE_STATUS",
                   "Timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
                 }
               }
