@@ -22,7 +22,7 @@ export async function authMiddleware(c: Context, next: Next) {
   }
 
   const token = authHeader.substring(7);
-  const jwtSecret = c.env?.JWT_SECRET || process.env.JWT_SECRET || 'ci-test-secret-key-entropy-32-bytes-minimum!';
+  const jwtSecret = c.env?.JWT_SECRET || (globalThis as any).process?.env?.JWT_SECRET || 'ci-test-secret-key-entropy-32-bytes-minimum!';
 
   try {
     const payload = await verify(token, jwtSecret, 'HS256');
