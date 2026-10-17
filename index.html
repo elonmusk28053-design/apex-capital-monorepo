@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Tesla Capital | Institutional Energy & Fleet Capital Infrastructure</title>
+  <meta name="description" content="Institutional capital infrastructure and asset-backed allocations for sustainable energy, Megapack grid storage, and autonomous fleet capital.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Manrope:wght@400..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0d1117;
+      --ink-soft: #161b22;
+      --ink-surface: #1a202c;
+      --ink-border: #2d3748;
+      --on-ink: #f7fafc;
+      --on-ink-muted: #94a3b8;
+      --gold: #d4af37;
+      --gold-hover: #e5c158;
+      --gold-soft: rgba(212, 175, 55, 0.12);
+      --positive: #10b981;
+      --positive-soft: rgba(16, 185, 129, 0.12);
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --container-width: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ink);
+      color: var(--on-ink);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--on-ink);
+      letter-spacing: -0.02em;
+    }
+
+    /* Concept & Demo Strip */
+    .demo-strip {
+      background: linear-gradient(90deg, #1e293b, #0f172a);
+      border-bottom: 1px solid var(--ink-border);
+      padding: 10px 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .demo-badge {
+      background: var(--gold-soft);
+      border: 1px solid var(--gold);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+    }
+
+    /* Header & Brand */
+    .site-header {
+      background: rgba(13, 17, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 80px;
+    }
+
+    .header-container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--on-ink);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 32px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-text .title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-text small {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      color: var(--on-ink-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--on-ink);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--on-ink);
+      border: 1px solid var(--ink-border);
+    }
+
+    .btn-outline:hover {
+      background: var(--ink-soft);
+      border-color: var(--on-ink-muted);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 96px 24px 80px;
+      max-width: var(--container-width);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      background: var(--gold-soft);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(135deg, #ffffff 40%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--on-ink-muted);
+      max-width: 680px;
+      margin-bottom: 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* Key Metrics Ticker */
+    .metrics-bar {
+      margin-top: 64px;
+      background: var(--ink-soft);
+      border: 1px solid var(--ink-border);
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      overflow: hidden;
+    }
+
+    .metric-cell {
+      padding: 24px 28px;
+      border-right: 1px solid var(--ink-border);
+    }
+
+    .metric-cell:last-child {
+      border-right: none;
+    }
+
+    .metric-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--on-ink-muted);
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--on-ink);
+    }
+
+    .metric-trend {
+      font-size: 11px;
+      color: var(--positive);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Funds Grid */
+    .section {
+      padding: 72px 24px;
+      max-width: var(--container-width);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--on-ink-muted);
+      font-size: 15px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .fund-card {
+      background: var(--ink-soft);
+      border: 1px solid var(--ink-border);
+      border-radius: 12px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .fund-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .fund-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-soft);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .fund-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .fund-card p {
+      color: var(--on-ink-muted);
+      font-size: 13.5px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .fund-stats {
+      border-top: 1px solid var(--ink-border);
+      padding-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .fund-stat-label {
+      font-size: 11px;
+      color: var(--on-ink-muted);
+      text-transform: uppercase;
+    }
+
+    .fund-stat-val {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--on-ink);
+    }
+
+    /* Audit Simulation Section */
+    .audit-section {
+      background: #090d13;
+      border: 1px solid var(--ink-border);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 48px;
+    }
+
+    .audit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .audit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--positive);
+      background: var(--positive-soft);
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      overflow-x: auto;
+      display: block;
+    }
+
+    .audit-table th {
+      text-align: left;
+      padding: 12px;
+      color: var(--on-ink-muted);
+      border-bottom: 1px solid var(--ink-border);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .audit-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .hash-cell {
+      color: var(--gold);
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: var(--ink-soft);
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--on-ink-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: var(--on-ink);
+    }
+
+    .modal-info-box {
+      background: rgba(212, 175, 55, 0.06);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.6;
+      margin: 20px 0;
+      color: #cbd5e1;
+      word-break: break-all;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--ink-border);
+      padding: 64px 24px;
+      background: #080b0f;
+    }
+
+    .footer-container {
+      max-width: var(--container-width);
+      margin: 0 auto;
+    }
+
+    .footer-disclaimer {
+      font-size: 11.5px;
+      line-height: 1.8;
+      color: #64748b;
+      margin-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .site-nav {
+        display: none;
+      }
+      .metrics-bar {
+        grid-template-columns: 1fr;
+      }
+      .metric-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--ink-border);
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Concept & Demo Environment Strip -->
+  <div class="demo-strip">
+    <span class="demo-badge">Concept Preview</span>
+    <span>Demo Environment · Fictional & Illustrative Data · No Real Capital Transactions or Securities Offering</span>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="brand" aria-label="Apex Tesla Capital">
+        <!-- Original SVG Emblem from Apex Wealth Console -->
+        <svg class="brand-mark" viewBox="0 0 32 34" fill="none" aria-hidden="true">
+          <path d="M3 29 16 4l13 25h-6L16 15 9 29H3Z" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 24h9" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <div class="brand-text">
+          <span class="title">APEX</span>
+          <small>TESLA CAPITAL</small>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <a href="#allocations" class="nav-link">Capital Allocations</a>
+        <a href="#audit" class="nav-link">Audit Proofs</a>
+        <a href="#governance" class="nav-link">Governance</a>
+        <button onclick="openAuthModal()" class="btn btn-outline" style="padding: 7px 16px; font-size: 12px;">OAuth Sign In</button>
+        <button onclick="openAuthModal()" class="btn btn-gold" style="padding: 7px 16px; font-size: 12px;">Portal Access</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Institutional Asset-Backed Capital
+    </div>
+    <h1>Institutional Capital Infrastructure for <span class="hero-highlight">Energy & Fleet Assets</span></h1>
+    <p>
+      Direct institutional allocation vehicles funding grid-scale Tesla Megapack installations, Supercharger infrastructure tranches, and autonomous fleet capital deployments.
+    </p>
+
+    <div class="hero-actions">
+      <button onclick="openAuthModal()" class="btn btn-gold" style="padding: 13px 26px; font-size: 14px;">
+        Institutional Login (PKCE)
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <a href="#allocations" class="btn btn-outline" style="padding: 13px 24px; font-size: 14px;">
+        Explore Fund Vehicles
+      </a>
+    </div>
+
+    <!-- Metrics Bar -->
+    <div class="metrics-bar">
+      <div class="metric-cell">
+        <div class="metric-label">Model Asset Allocation</div>
+        <div class="metric-value">$1,420,000,000</div>
+        <div class="metric-trend">+14.2% YoY Capital Base</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Grid Storage Under Management</div>
+        <div class="metric-value">3.24 GWh</div>
+        <div class="metric-trend">28 Megapack Sites Active</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Autonomous Miles Tracked</div>
+        <div class="metric-value">48,620,000 mi</div>
+        <div class="metric-trend">99.98% Real-Time Fleet Uptime</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-label">Audit Chain Sequence</div>
+        <div class="metric-value">#1,842 Monotonic</div>
+        <div class="metric-trend">Zero IEEE-754 Drift (Integer Cents)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Allocations & Funds Section -->
+  <section id="allocations" class="section">
+    <div class="section-header">
+      <h2>Institutional Allocation Tranches</h2>
+      <p>Asset-backed debt and equity tranches engineered with transparent yield and deterministic telemetry.</p>
+    </div>
+
+    <div class="cards-grid">
+      <!-- Card 1 -->
+      <div class="fund-card">
+        <div>
+          <span class="fund-tag">Utility Storage</span>
+          <h3>Megapack Grid Infrastructure Fund</h3>
+          <p>
+            Asset-backed senior secured debt financing utility-scale Megapack 2XL installations across ERCOT and CAISO grids with contracted capacity arbitrage.
+          </p>
+        </div>
+        <div class="fund-stats">
+          <div>
+            <div class="fund-stat-label">Model Target APY</div>
+            <div class="fund-stat-val" style="color: var(--positive);">8.45% Net</div>
+          </div>
+          <div>
+            <div class="fund-stat-label">Liquidity Profile</div>
+            <div class="fund-stat-val">T+1 Monthly</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="fund-card">
+        <div>
+          <span class="fund-tag">Fleet Mobility</span>
+          <h3>Autonomous Cybercab Fleet Capital</h3>
+          <p>
+            Structured equity vehicle holding titled autonomous transport assets, capturing depreciated lease yield and per-mile network dispatch cash flows.
+          </p>
+        </div>
+        <div class="fund-stats">
+          <div>
+            <div class="fund-stat-label">Projected Return</div>
+            <div class="fund-stat-val" style="color: var(--gold);">12.10% IRR</div>
+          </div>
+          <div>
+            <div class="fund-stat-label">Tenor</div>
+            <div class="fund-stat-val">36 Months</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="fund-card">
+        <div>
+          <span class="fund-tag">Energy Network</span>
+          <h3>Supercharger V4 Expansion Tranche</h3>
+          <p>
+            Institutional infrastructure debt supporting high-throughput commercial and passenger charging hubs with revenue-share rights.
+          </p>
+        </div>
+        <div class="fund-stats">
+          <div>
+            <div class="fund-stat-label">Fixed Coupon</div>
+            <div class="fund-stat-val" style="color: var(--on-ink);">7.25% Quarterly</div>
+          </div>
+          <div>
+            <div class="fund-stat-label">Collateral Ratio</div>
+            <div class="fund-stat-val">140% LTV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-Time Audit Proof Ledger Simulation -->
+    <div id="audit" class="audit-section">
+      <div class="audit-header">
+        <div>
+          <h3 style="font-size: 18px; margin-bottom: 4px;">Tamper-Evident HMAC-SHA256 Audit Stream</h3>
+          <p style="font-size: 12px; color: var(--on-ink-muted);">Simulated verification of immutable ledger sequences across Cloudflare D1 nodes.</p>
+        </div>
+        <div class="audit-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Chain Verified: Monotonic & Hash-Linked
+        </div>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Seq #</th>
+            <th>Timestamp (UTC)</th>
+            <th>Action</th>
+            <th>Tenant Context</th>
+            <th>HMAC-SHA256 Hash</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color: var(--gold); font-weight: 700;">#1842</td>
+            <td>2026-10-17 03:38:12</td>
+            <td>PORTFOLIO_SNAPSHOT_EXPORT</td>
+            <td>tenant_inst_treasury_01</td>
+            <td class="hash-cell">sha256:8b4a7d189c2fa981...</td>
+          </tr>
+          <tr>
+            <td style="color: var(--gold); font-weight: 700;">#1841</td>
+            <td>2026-10-17 03:30:00</td>
+            <td>YIELD_ACCRUAL_BATCH</td>
+            <td>tenant_inst_treasury_01</td>
+            <td class="hash-cell">sha256:d5c643912a76f014...</td>
+          </tr>
+          <tr>
+            <td style="color: var(--gold); font-weight: 700;">#1840</td>
+            <td>2026-10-17 02:45:19</td>
+            <td>MEGAPACK_TELEMETRY_SYNC</td>
+            <td>tenant_fleet_grid_04</td>
+            <td class="hash-cell">sha256:1fa984bc871239ab...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PKCE Authentication Simulator Modal -->
+  <div id="authModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <svg class="brand-mark" style="width: 22px; height: 24px;" viewBox="0 0 32 34" fill="none">
+          <path d="M3 29 16 4l13 25h-6L16 15 9 29H3Z" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 24h9" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <h3 style="font-size: 18px;">Apex Institutional Authentication</h3>
+      </div>
+      <p style="font-size: 12.5px; color: var(--on-ink-muted);">
+        Production PKCE OAuth 2.0 Client credentials configuration.
+      </p>
+
+      <div class="modal-info-box">
+        <strong>Application Type:</strong> Single-page app (PKCE)<br>
+        <strong>Client ID:</strong> 5e019c60462b4226b3914b84c8d8cbb2<br>
+        <strong>Redirect URI:</strong><br>
+        https://apexteslacapital20--apexinvest-security-review.retool.app/<br>
+        <strong>Grant Types:</strong> Authorization code, Refresh token<br>
+        <strong>Scopes:</strong> openid, offline, email, profile
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)">
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; font-size: 11.5px; color: var(--on-ink-muted); margin-bottom: 6px; text-transform: uppercase;">Corporate / Institutional Email</label>
+          <input type="email" required value="treasury@institution.apexinvest.internal" style="width: 100%; padding: 10px 12px; background: #0b0f14; border: 1px solid var(--ink-border); border-radius: 6px; color: #fff; font-size: 13px;" readonly>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 11.5px; color: var(--on-ink-muted); margin-bottom: 6px; text-transform: uppercase;">Security Verification</label>
+          <input type="text" value="PKCE Code Challenge (S256 Verified)" style="width: 100%; padding: 10px 12px; background: #0b0f14; border: 1px solid var(--ink-border); border-radius: 6px; color: var(--gold); font-size: 13px; font-family: var(--font-mono);" readonly>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 12px; font-size: 13px;">
+          Launch Retool Review Callback
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 20px;">
+        <a href="#" class="brand">
+          <svg class="brand-mark" viewBox="0 0 32 34" fill="none">
+            <path d="M3 29 16 4l13 25h-6L16 15 9 29H3Z" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M12 24h9" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          <div class="brand-text">
+            <span class="title">APEX</span>
+            <small>TESLA CAPITAL</small>
+          </div>
+        </a>
+        <div style="font-size: 12px; color: var(--on-ink-muted);">
+          &copy; 2026 Apex Tesla Capital · Concept Demonstration
+        </div>
+      </div>
+
+      <div class="footer-disclaimer">
+        <strong>Mandatory Regulatory & Prototype Disclosures:</strong><br>
+        Apex Tesla Capital is an engineering concept prototype and technology demonstration. All fund strategies, Megapack yield figures, fleet metrics, and performance models depicted are illustrative simulations and do not represent actual historical or prospective investment returns. This website does not constitute an offer to sell, a solicitation of an offer to buy, or a recommendation of any security or investment product. Access to private capital vehicles is restricted exclusively to verified accredited institutions and qualified purchasers under applicable securities regulations. Legal entity registration, municipal authorizations, and FinCEN/regulatory disclosures remain pending formal administrative approval.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function openAuthModal() {
+      document.getElementById('authModal').style.display = 'flex';
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+
+    function handleOverlayClick(event) {
+      if (event.target.id === 'authModal') {
+        closeAuthModal();
+      }
+    }
+
+    function handleAuthSubmit(event) {
+      event.preventDefault();
+      const redirectUrl = "https://apexteslacapital20--apexinvest-security-review.retool.app/";
+      alert("Redirecting to authorized PKCE Retool Callback:\n" + redirectUrl);
+      window.open(redirectUrl, '_blank');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAuthModal();
+      }
+    });
+  </script>
+</body>
+</html>
