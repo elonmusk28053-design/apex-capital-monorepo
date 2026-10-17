@@ -73,6 +73,11 @@
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .demo-text {
+      line-height: 1.45;
     }
 
     /* Header & Brand */
@@ -310,7 +315,7 @@
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
     }
 
@@ -405,33 +410,65 @@
       padding: 4px 12px;
       border-radius: 6px;
       border: 1px solid rgba(16, 185, 129, 0.3);
+      white-space: nowrap;
+    }
+
+    .audit-scroll-hint {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .audit-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(13, 17, 23, 0.6);
     }
 
     .audit-table {
       width: 100%;
+      min-width: 580px;
       border-collapse: collapse;
       font-family: var(--font-mono);
       font-size: 12px;
-      overflow-x: auto;
-      display: block;
     }
 
     .audit-table th {
       text-align: left;
-      padding: 12px;
+      padding: 12px 14px;
       color: var(--on-ink-muted);
       border-bottom: 1px solid var(--ink-border);
       font-weight: 600;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      background: rgba(22, 27, 34, 0.8);
+      position: sticky;
+      top: 0;
     }
 
     .audit-table td {
-      padding: 12px;
+      padding: 12px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       color: #e2e8f0;
       white-space: nowrap;
+    }
+
+    .audit-action-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #cbd5e1;
     }
 
     .hash-cell {
@@ -515,18 +552,165 @@
     }
 
     @media (max-width: 768px) {
+      :root {
+        --container-width: 100%;
+      }
+      body {
+        font-size: 15px;
+      }
+      .demo-strip {
+        padding: 8px 16px;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+      }
+      .demo-badge {
+        font-size: 9px;
+        padding: 2px 7px;
+      }
+      .demo-text {
+        font-size: 9.5px;
+      }
+      .site-header {
+        height: 70px;
+      }
+      .header-container {
+        padding: 0 16px;
+      }
       .site-nav {
         display: none;
       }
+      .hero {
+        padding: 44px 16px 36px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        padding: 5px 12px;
+        margin-bottom: 16px;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 7.5vw, 36px);
+        margin-bottom: 16px;
+      }
+      .hero p {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
       .metrics-bar {
+        margin-top: 40px;
         grid-template-columns: 1fr;
+        border-radius: 10px;
       }
       .metric-cell {
         border-right: none;
         border-bottom: 1px solid var(--ink-border);
+        padding: 16px 18px;
       }
-      .hero h1 {
-        font-size: 32px;
+      .metric-value {
+        font-size: 22px;
+      }
+      .section {
+        padding: 48px 16px;
+      }
+      .section-header {
+        margin-bottom: 28px;
+      }
+      .section-header h2 {
+        font-size: 24px;
+      }
+      .section-header p {
+        font-size: 14px;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .fund-card {
+        padding: 22px 18px;
+        border-radius: 10px;
+      }
+      .fund-card h3 {
+        font-size: 18px;
+        line-height: 1.3;
+      }
+      .fund-card p {
+        font-size: 13px;
+        margin-bottom: 20px;
+      }
+      .fund-stats {
+        padding-top: 16px;
+        gap: 12px;
+      }
+      .fund-stat-val {
+        font-size: 15px;
+      }
+      .audit-section {
+        padding: 20px 16px;
+        margin-top: 36px;
+        border-radius: 10px;
+      }
+      .audit-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .audit-badge {
+        font-size: 10px;
+        padding: 3px 10px;
+      }
+      .audit-scroll-hint {
+        display: flex;
+      }
+      .audit-table th, .audit-table td {
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+      .hash-cell {
+        max-width: 160px;
+      }
+      .modal-card {
+        padding: 22px 16px;
+        border-radius: 12px;
+      }
+      .site-footer {
+        padding: 48px 16px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .demo-strip {
+        padding: 8px 10px;
+      }
+      .hero {
+        padding: 36px 12px 28px;
+      }
+      .section {
+        padding: 36px 12px;
+      }
+      .fund-card {
+        padding: 16px 14px;
+      }
+      .fund-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .audit-section {
+        padding: 16px 12px;
+      }
+      .audit-table {
+        min-width: 520px;
       }
     }
   </style>
@@ -536,7 +720,7 @@
   <!-- Concept & Demo Environment Strip -->
   <div class="demo-strip">
     <span class="demo-badge">Concept Preview</span>
-    <span>Demo Environment · Fictional & Illustrative Data · No Real Capital Transactions or Securities Offering</span>
+    <span class="demo-text">Demo Environment · Fictional &amp; Illustrative Data · No Real Capital Transactions or Securities Offering</span>
   </div>
 
   <!-- Header -->
@@ -691,44 +875,51 @@
         </div>
         <div class="audit-badge">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Chain Verified: Monotonic & Hash-Linked
+          Chain Verified: Monotonic &amp; Hash-Linked
         </div>
       </div>
 
-      <table class="audit-table">
-        <thead>
-          <tr>
-            <th>Seq #</th>
-            <th>Timestamp (UTC)</th>
-            <th>Action</th>
-            <th>Tenant Context</th>
-            <th>HMAC-SHA256 Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="color: var(--gold); font-weight: 700;">#1842</td>
-            <td>2026-10-17 03:38:12</td>
-            <td>PORTFOLIO_SNAPSHOT_EXPORT</td>
-            <td>tenant_inst_treasury_01</td>
-            <td class="hash-cell">sha256:8b4a7d189c2fa981...</td>
-          </tr>
-          <tr>
-            <td style="color: var(--gold); font-weight: 700;">#1841</td>
-            <td>2026-10-17 03:30:00</td>
-            <td>YIELD_ACCRUAL_BATCH</td>
-            <td>tenant_inst_treasury_01</td>
-            <td class="hash-cell">sha256:d5c643912a76f014...</td>
-          </tr>
-          <tr>
-            <td style="color: var(--gold); font-weight: 700;">#1840</td>
-            <td>2026-10-17 02:45:19</td>
-            <td>MEGAPACK_TELEMETRY_SYNC</td>
-            <td>tenant_fleet_grid_04</td>
-            <td class="hash-cell">sha256:1fa984bc871239ab...</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="audit-scroll-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Swipe horizontally to inspect full cryptographic chain
+      </div>
+
+      <div class="audit-table-wrapper">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Seq #</th>
+              <th>Timestamp (UTC)</th>
+              <th>Action</th>
+              <th>Tenant Context</th>
+              <th>HMAC-SHA256 Hash</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--gold); font-weight: 700;">#1842</td>
+              <td>2026-10-17 03:38:12</td>
+              <td><span class="audit-action-tag">PORTFOLIO_SNAPSHOT_EXPORT</span></td>
+              <td>tenant_inst_treasury_01</td>
+              <td class="hash-cell">sha256:8b4a7d189c2fa981...</td>
+            </tr>
+            <tr>
+              <td style="color: var(--gold); font-weight: 700;">#1841</td>
+              <td>2026-10-17 03:30:00</td>
+              <td><span class="audit-action-tag">YIELD_ACCRUAL_BATCH</span></td>
+              <td>tenant_inst_treasury_01</td>
+              <td class="hash-cell">sha256:d5c643912a76f014...</td>
+            </tr>
+            <tr>
+              <td style="color: var(--gold); font-weight: 700;">#1840</td>
+              <td>2026-10-17 02:45:19</td>
+              <td><span class="audit-action-tag">MEGAPACK_TELEMETRY_SYNC</span></td>
+              <td>tenant_fleet_grid_04</td>
+              <td class="hash-cell">sha256:1fa984bc871239ab...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
